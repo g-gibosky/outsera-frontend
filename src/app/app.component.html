@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+    <span>Frontend Angular Test</span>
+    <div class="spacer"></div>
+    <button mat-button routerLink="/dashboard" routerLinkActive="mat-accent">Dashboard</button>
+    <button mat-button routerLink="/list" routerLinkActive="mat-accent">List</button>
+</mat-toolbar>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
