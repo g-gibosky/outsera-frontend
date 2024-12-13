@@ -6,6 +6,7 @@ import {
   YearsWithMultipleWinnersResponse,
   StudiosWithWinsResponse,
   ProducerWinIntervalResponse,
+  PageResponse,
 } from '../models/api.interface';
 
 @Injectable({
@@ -40,7 +41,27 @@ export class MovieService {
     if (winner !== undefined) {
       params = params.set('winner', winner.toString());
     }
-
     return this.http.get<Movie>(`${this.API_URL}`, { params });
+  }
+
+  getMovies(
+    page: number = 0,
+    size: number = 10,
+    winner?: boolean,
+    year?: number
+  ): Observable<PageResponse<Movie>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (winner !== undefined) {
+      params = params.set('winner', winner.toString());
+    }
+
+    if (year !== undefined) {
+      params = params.set('year', year.toString());
+    }
+
+    return this.http.get<PageResponse<Movie>>(`${this.API_URL}`, { params });
   }
 }
