@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.movieService.getStudiosWithWinCount().subscribe((data) => {
-      this.topStudios = data.studios;
+      this.topStudios = data.studios.slice(0,3);
     });
 
     this.movieService
