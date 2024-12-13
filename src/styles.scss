@@ -91,3 +91,50 @@ body {
     width: 100%;
     max-width: 500px;
 }
+
+.mat-mdc-table {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+
+    .mat-mdc-header-row {
+        background-color: #fafafa;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .mat-mdc-header-cell {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 500;
+        padding: 16px;
+        border-right: 1px solid #e0e0e0;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    .mat-mdc-row {
+        border-bottom: 1px solid #e0e0e0;
+
+        &:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .mat-mdc-cell {
+        padding: 16px;
+        border-right: 1px solid #e0e0e0;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+    
+    .mat-mdc-card {
+        margin-bottom: 20px;
+    }
+}
