@@ -29,9 +29,9 @@ import { Movie, PageResponse } from '../../../models/api.interface';
   styleUrl: './get-movies.component.scss',
 })
 export class MovieSearchComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'year', 'title', 'studios', 'winner'];
+  displayedColumns: string[] = ['id', 'year', 'title'];
   dataSource: Movie[] = [];
-  searchYear: number | null = null;
+  searchYear: number | null = null; 
   hasSearched = false;
 
   // Pagination
@@ -56,7 +56,7 @@ export class MovieSearchComponent implements OnInit {
       .getMovies(
         this.currentPage,
         this.pageSize,
-        undefined,
+        true,
         this.searchYear || undefined
       )
       .subscribe((response: PageResponse<Movie>) => {

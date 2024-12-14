@@ -9,11 +9,11 @@ export const routes: Routes = [
         (m) => m.DashboardComponent
       ),
   },
-  // {
-  //   path: 'list',
-  //   loadComponent: () =>
-  //     import('./components/movie-list/movie-list.component').then(
-  //       (m) => m.MovieListComponent
-  //     ),
-  // },
+  {
+    path: 'list',
+    loadComponent: () =>
+      import('./components/movie-list/movie-list.component').then(
+        (m) => m.MovieListComponent
+      ),
+  },
 ];
