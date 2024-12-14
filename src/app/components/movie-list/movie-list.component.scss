@@ -1,0 +1,43 @@
+// src/app/components/movie-list/movie-list.component.scss
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.filter-field {
+    margin-left: 8px;
+    width: 100px;
+    font-size: 14px;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+::ng-deep {
+    .mat-mdc-row:nth-child(even) {
+        background-color: #fafafa;
+    }
+
+    .mat-mdc-header-cell {
+        .mat-mdc-form-field {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+    }
+
+    .mat-mdc-header-row {
+        height: auto;
+        padding: 8px 0;
+    }
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+    padding: 0 16px;
+}
