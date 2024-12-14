@@ -1,22 +1,18 @@
-.dashboard-container {
-    padding: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+ .dashboard-container {
+     padding: 24px;
+     max-width: 1400px;
+     margin: 0 auto;
+ }
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 24px;
-    align-items: start;
-}
+ .dashboard-grid {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     gap: 24px;
+     align-items: stretch;
+ }
 
-.full-width {
-    grid-column: 1 / -1;
-}
-
-@media (max-width: 900px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-}
+ @media (max-width: 1200px) {
+     .dashboard-grid {
+         grid-template-columns: 1fr;
+     }
+ }

@@ -1,12 +1,17 @@
 :host {
     display: block;
+    height: 100%;
+}
+
+mat-card {
+    height: 100%;
 }
 
 .search-container {
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 mat-form-field {
@@ -14,7 +19,9 @@ mat-form-field {
 }
 
 .table-container {
-    margin-top: 20px;
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
 }
 
 table {
@@ -27,6 +34,7 @@ table {
     color: rgba(0, 0, 0, 0.54);
 }
 
-.mat-mdc-row:nth-child(even) {
-    background-color: #fafafa;
+::ng-deep .mat-mdc-tab-body-wrapper {
+    flex: 1;
+    min-height: 0;
 }
