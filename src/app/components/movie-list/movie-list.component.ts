@@ -66,21 +66,20 @@ export class MovieListComponent implements OnInit {
     this.movieService.getMovies(0, this.totalElements).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response.content);
       this.setupFilter();
-      this.dataSource!.paginator = this.paginator;
+      this.applyFilters();
       this.isLoading = false;
     });
   }
 
   setupFilter() {
-    this.dataSource!.filterPredicate = (data: Movie) => {
-      const yearMatch =
-        this.searchYear === '' ||
-        data.year.toString().includes(this.searchYear!);
-      const winnerMatch =
-        this.winner_type === undefined || data.winner === this.winner_type;
-      return yearMatch && winnerMatch;
-    };
-    this.applyFilters();
+    // this.dataSource!.filterPredicate = (data: Movie, filter: string) => {
+    //   const yearMatch =
+    //     this.searchYear === '' ||
+    //     data.year.toString().includes(this.searchYear!);
+    //   const winnerMatch = 
+    //     this.winner_type === undefined || data.winner === this.winner_type;
+    //   return yearMatch && winnerMatch;
+    // };
   }
 
   handlePageEvent(e: PageEvent) {
@@ -103,7 +102,9 @@ export class MovieListComponent implements OnInit {
     });
   }
 
-  filterWinners() {
+  filterWinners(event: string) {
+    this.winner_type = Boolean(event);
+    this.dataSource!.filter = event;
     this.applyFilters();
   }
 }
