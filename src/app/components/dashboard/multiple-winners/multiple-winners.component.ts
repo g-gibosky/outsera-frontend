@@ -1,4 +1,3 @@
-// src/app/components/dashboard/multiple-winners/multiple-winners.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';

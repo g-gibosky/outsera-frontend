@@ -1,4 +1,3 @@
-// src/app/models/api.interface.ts
 export interface PageableSort {
   sorted: boolean;
   unsorted: boolean;
