@@ -38,7 +38,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         Winner?
                         <mat-form-field appearance="outline" class="filter-field">
-                            <mat-select [(ngModel)]="winner_type" (ngModelChange)="filterWinners($event)" placeholder="Yes/No">
+                            <mat-select [(ngModel)]="winner_type" (selectionChange)="filterWinners()" placeholder="Yes/No">
                                 <mat-option [value]="undefined"></mat-option>
                                 <mat-option [value]="true">Yes</mat-option>
                                 <mat-option [value]="false">No</mat-option>
