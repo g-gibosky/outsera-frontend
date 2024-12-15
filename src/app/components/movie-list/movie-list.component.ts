@@ -1,16 +1,32 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MovieService } from '../../services/movie.service';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Movie, PageResponse } from '../../models/api.interface';
+import { ViewportRuler, ScrollingModule } from '@angular/cdk/scrolling';
+import {
+  CdkConnectedOverlay,
+  ConnectedPosition,
+  OverlayModule,
+} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-movie-list',
@@ -26,11 +42,13 @@ import { Movie, PageResponse } from '../../models/api.interface';
     MatIconModule,
     MatPaginatorModule,
     MatSelectModule,
+    ScrollingModule,
   ],
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'year', 'title', 'studios', 'winners'];
   dataSource: MatTableDataSource<Movie, MatPaginator> | undefined;
   searchYear: string | null = null;
@@ -43,13 +61,29 @@ export class MovieListComponent implements OnInit {
   totalElements = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('select') select!: MatSelect;
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private viewportRuler: ViewportRuler
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadMovies();
+  }
 
   ngAfterViewInit() {
-    this.loadMovies();
+    if (this.select) {
+      this.select._positions = [
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+          offsetY: 8, // Add some spacing from the select
+        },
+      ];
+    }
   }
 
   loadMovies() {
@@ -66,7 +100,6 @@ export class MovieListComponent implements OnInit {
     this.movieService.getMovies(0, this.totalElements).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response.content);
       this.setupFilter();
-      console.log("this.searchYear >>>>>>>>>>>>>", this.searchYear);
       this.applyFilters();
       this.isLoading = false;
     });
@@ -77,7 +110,7 @@ export class MovieListComponent implements OnInit {
       const yearMatch =
         this.searchYear === null ||
         data.year.toString().includes(this.searchYear!);
-      const winnerMatch = 
+      const winnerMatch =
         this.winner_type === undefined || data.winner === this.winner_type;
       return yearMatch && winnerMatch;
     };
@@ -92,7 +125,7 @@ export class MovieListComponent implements OnInit {
     this.searchYear = (event.target as HTMLInputElement).value;
     this.applyFilters();
   }
-  
+
   private applyFilters() {
     this.dataSource!.filter = Date.now().toString();
     setTimeout(() => {

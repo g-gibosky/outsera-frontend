@@ -1,9 +1,12 @@
-<mat-toolbar color="primary">
-    <span>Frontend Angular Test - Outsera - Guilherme Gibosky</span>
-    <div class="spacer"></div>
-    <button mat-button routerLink="/dashboard" routerLinkActive="mat-accent">Dashboard</button>
-    <button mat-button routerLink="/list" routerLinkActive="mat-accent">List</button>
-</mat-toolbar>
-<div class="container">
-    <router-outlet></router-outlet>
+<nav class="nav-bar">
+    <div class="nav-title">Frontend Angular Test</div>
+</nav>
+<div class="content-container">
+    <div class="side-nav">
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/list" routerLinkActive="active">List</a>
+    </div>
+    <div class="main-content">
+        <router-outlet></router-outlet>
+    </div>
 </div>

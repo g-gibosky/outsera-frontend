@@ -1,29 +1,56 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser';
 
-describe('AppComponent', () => {
+describe('AppComponent Integration', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let router: Router;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [RouterTestingModule, AppComponent],
     }).compileComponents();
-  });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'movie-app-angular' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('movie-app-angular');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, movie-app-angular');
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display the navigation title', () => {
+    const titleElement = fixture.debugElement.query(By.css('.nav-title'));
+    expect(titleElement.nativeElement.textContent).toContain(
+      'Frontend Angular Test'
+    );
+  });
+
+  it('should have navigation links for Dashboard and List', () => {
+    const links = fixture.debugElement.queryAll(By.css('.side-nav a'));
+    expect(links.length).toBe(2);
+    expect(links[0].nativeElement.textContent).toContain('Dashboard');
+    expect(links[1].nativeElement.textContent).toContain('List');
+  });
+
+  it('should navigate to Dashboard when clicking the Dashboard link', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const dashboardLink = fixture.debugElement.queryAll(
+      By.css('.side-nav a')
+    )[0];
+    dashboardLink.nativeElement.click();
+    expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
+  });
+
+  it('should navigate to List when clicking the List link', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const listLink = fixture.debugElement.queryAll(By.css('.side-nav a'))[1];
+    listLink.nativeElement.click();
+    expect(navigateSpy).toHaveBeenCalledWith(['/list']);
   });
 });

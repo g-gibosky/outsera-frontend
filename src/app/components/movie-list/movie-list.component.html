@@ -17,6 +17,7 @@
                 <ng-container matColumnDef="year">
                     <th mat-header-cell *matHeaderCellDef>
                         Year
+                        <br>
                         <mat-form-field appearance="outline" class="filter-field">
                             <input matInput (keyup)="applyYearFilter($event)" placeholder="Filter By Year" #input>
                         </mat-form-field>
@@ -37,8 +38,9 @@
                 <ng-container matColumnDef="winners">
                     <th mat-header-cell *matHeaderCellDef>
                         Winner?
+                        <br>
                         <mat-form-field appearance="outline" class="filter-field">
-                            <mat-select [(ngModel)]="winner_type" (selectionChange)="filterWinners()" placeholder="Yes/No">
+                            <mat-select [(ngModel)]="winner_type" (selectionChange)="filterWinners()" placeholder="Yes/No" panelClass="custom-panel">
                                 <mat-option [value]="undefined"></mat-option>
                                 <mat-option [value]="true">Yes</mat-option>
                                 <mat-option [value]="false">No</mat-option>
