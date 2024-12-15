@@ -1,10 +1,10 @@
+import { Component, ViewChild, ViewEncapsulation, AfterViewInit, OnInit } from '@angular/core';
 import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+  Overlay,
+  OverlayContainer,
+  FlexibleConnectedPositionStrategy,
+} from '@angular/cdk/overlay';
+import { Platform } from '@angular/cdk/platform';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -22,11 +22,6 @@ import { MovieService } from '../../services/movie.service';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Movie, PageResponse } from '../../models/api.interface';
 import { ViewportRuler, ScrollingModule } from '@angular/cdk/scrolling';
-import {
-  CdkConnectedOverlay,
-  ConnectedPosition,
-  OverlayModule,
-} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-movie-list',
@@ -61,11 +56,12 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   totalElements = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('select') select!: MatSelect;
+  @ViewChild('winnerSelect') select!: MatSelect;
 
   constructor(
     private movieService: MovieService,
-    private viewportRuler: ViewportRuler
+    private platform: Platform,
+    private overlay: Overlay
   ) {}
 
   ngOnInit() {
@@ -73,16 +69,35 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.select) {
-      this.select._positions = [
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-          offsetY: 8, // Add some spacing from the select
-        },
-      ];
+    if (this.platform.isBrowser) {
+      this.select.openedChange.subscribe((opened) => {
+        if (opened) {
+          const positionStrategy = this.overlay
+            .position()
+            .flexibleConnectedTo(this.select._elementRef)
+            .withPositions([
+              {
+                originX: 'start',
+                originY: 'bottom',
+                overlayX: 'start',
+                overlayY: 'top',
+                offsetY: 8,
+              },
+            ]);
+
+          const overlayRef = this.overlay.create({
+            positionStrategy,
+            scrollStrategy: this.overlay.scrollStrategies.reposition(),
+            width: this.select._elementRef.nativeElement.offsetWidth,
+          });
+
+          this.select.openedChange.subscribe((isOpen) => {
+            if (!isOpen) {
+              overlayRef.dispose();
+            }
+          });
+        }
+      });
     }
   }
 
